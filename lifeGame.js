@@ -28,7 +28,7 @@ function LifeGame(width, height, cellSize, canvas) {
 			}else{
 				_ctx.fillStyle = "white";
 			}
-
+ 
 			// render the cell 
 			_ctx.beginPath();
 
