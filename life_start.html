@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title> Cells in Canvas </title>
+<style>
+body { padding: 0px; margin: 0px; background-color: #000; color: white; font: 14px 'Arial';}
+.mainContent { color: black; margin: 0px auto; width: 960px; background-color: white; border-radius: 10px; text-align: center; line-height: 500px;}
+#gameCanvas { border: 1px solid #ccc; vertical-align: middle; cursor: pointer;}
+.controls { float: right; line-height: normal;}
+.controls button { min-width: 100px; height: 25px;}
+</style>
+</head>
+<body>
+    <br>
+    <div class="mainContent">
+
+        <canvas id="gameCanvas" width="800" height="450">
+            Your browser does not support HTML5
+        </canvas>
+
+        <section class="controls">
+            <button id="btn1">Randomize</button>
+            <button id="btn2">Start</button>
+            <button id="btn3">Clear</button>
+        </section>
+
+        <div style="clear:both;"></div>
+
+    </div>
+
+    <script src="cell.js"></script>
+    <script src="grid.js"></script>
+    <script src="lifeGame.js"></script>
+
+<script>
+var canvas,
+    gameWorld,
+    CELL_DIMENSION = 10,
+    WORLD_WIDTH = 800,
+    WORLD_HEIGHT = 450,
+    startButton;
+
+
+window.onload = init;
+function init() {
+    startButton = document.getElementById("btn2");
+    canvas = document.getElementById("gameCanvas");
+    gameWorld = new LifeGame(WORLD_WIDTH, WORLD_HEIGHT, CELL_DIMENSION, canvas); 
+
+    canvas.addEventListener("click", onCanvasClick);
+
+    //set live cells 
+    clearGame();
+    gameWorld.addRandomCells(250);
+    gameWorld.draw();
+
+    //controllers
+    startButton.onclick = function() {
+        startGame();
+    }
+
+}
+
+
+
+//9
+function onCanvasClick(evt) {
+    var rect = canvas.getBoundingClientRect();
+
+    //Get the x/y position of the cell clicked on
+    var cellX = Math.floor((evt.clientX - rect.left) / CELL_DIMENSION );
+    var cellY = Math.floor((evt.clientY - rect.top) / CELL_DIMENSION);
+
+    gameWorld.addCell(cellX, cellY);
+    gameWorld.draw();
+}
+
+
+//control
+
+var interval = -1;
+
+//reset
+function clearGame() {
+    pauseGame();
+    gameWorld.clear();
+    gameWorld.draw();
+}
+//start
+function startGame() {
+    if (interval == -1) {
+        interval = setInterval(gameWorld.update, 1000);
+        startButton.innerHTML = "Pause";
+    } else {
+        pauseGame();
+    }
+}
+//pause
+function pauseGame() {
+    if (interval != -1) {
+        clearInterval(interval);
+        interval = -1;
+    }
+    startButton.innerHTML = "Start";
+}
+
+
+</script>
+</body>
+</html>
