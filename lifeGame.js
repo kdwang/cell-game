@@ -59,8 +59,8 @@ function LifeGame(width, height, cellSize, canvas) {
 
 			// living rules
 			if (oldCell.live) {
-				// 活细胞，有2或3个邻居，继续活着
-				newCell.live = neighbours > 1 && neighbours < 4; 
+				// 活细胞，有2或3个邻居，继续活着    
+				newCell.live = neighbours > 1 && neighbours < 4;
 			} else {
 				// 死细胞，3个邻居，唤醒
 				if (neighbours == 3) {
