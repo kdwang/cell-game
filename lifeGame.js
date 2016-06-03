@@ -87,6 +87,7 @@ function LifeGame(width, height, cellSize, canvas) {
 
 }
 
+/////////////////////////////////////////////////
 
 	
 
